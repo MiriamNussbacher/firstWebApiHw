@@ -1,0 +1,30 @@
+﻿body {
+    text-align: center;
+    font-family: cursive;
+    background-size: 100%;
+}
+
+.btn {
+    width: 100px;
+    height: 30px;
+    font-size: medium;
+    font-family: cursive;
+    color: black;
+    background-color: aqua;
+    border-color: black;
+    border-width: initial;
+}
+
+.inputs {
+    width: 200px;
+    height: 30px;
+}
+.link {
+    font-size:medium;
+    color:springgreen;   
+}
+p {
+    font-size: medium;
+    color: aqua;
+    margin-top:3px;
+}

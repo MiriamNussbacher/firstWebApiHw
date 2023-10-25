@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="login.css" />
+    <script src="Login.js"></script>
+    <title></title>
+</head>
+<body>
+    <p>שם משתמש</p><input class="inputs" id="userName1" /><br />
+    <p>סיסמא</p><input class="inputs" id="password1" /><br />
+    <p><button class="btn" onclick="login()">התחברות</button></p>
+    <a class="link" onclick="change()">משתמש חדש👧👨‍👵👶</a>
+    <div style="visibility:hidden" id="register">
+        <p>שם משתמש</p><input class="inputs" id="userName" /><br />
+        <p>סיסמא</p><input class="inputs" id="password"  onblur="strengthPassword()"/><br />
+        <progress id="progress" value="0" max="4"></progress>
+        <p>שם פרטי</p><input class="inputs" id="firstName" /><br />
+        <p>שם משפחה</p><input class="inputs" id="lastName" /><br /><br />
+        <button class="btn" onclick="register()">הרשם</button>
+    </div>
+
+
+</body>
+</html>
