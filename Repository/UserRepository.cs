@@ -4,7 +4,7 @@ using System;
 
 namespace Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         string url = "../myUsers.txt";
         public User getUserByUserNameAndPassword(string UserName, string Password)
@@ -26,8 +26,8 @@ namespace Repository
 
 
 
-    
-     public User createNewUser(User user)
+
+        public User createNewUser(User user)
         {
             int numberOfUsers = System.IO.File.ReadLines(url).Count();
             user.userId = numberOfUsers + 1;
@@ -37,7 +37,7 @@ namespace Repository
 
         }
 
-    public void update (int id, User userToUpdate)
+        public void update(int id, User userToUpdate)
         {
             string textToReplace = string.Empty;
             using (StreamReader reader = System.IO.File.OpenText(url))

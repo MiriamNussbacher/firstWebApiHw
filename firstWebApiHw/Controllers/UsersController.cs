@@ -14,14 +14,20 @@ namespace firstWebApiHw.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        UserService userService = new UserService();
+        IUserService _userService;
+
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         // GET: api/<user>
         [HttpGet]
         public ActionResult<User> Get([FromQuery] string UserName, [FromQuery] string Password)
         {
             try
             {
-                User user = userService.getUserByUserNameAndPassword(UserName, Password);
+                User user = _userService.getUserByUserNameAndPassword(UserName, Password);
                 if(user!=null)
                     return Ok(user);
                 else
@@ -41,7 +47,7 @@ namespace firstWebApiHw.Controllers
         public ActionResult<User> Post([FromBody] User user)
         {
             try { 
-            User newUser = userService.createNewUser(user);
+            User newUser = _userService.createNewUser(user);
                 if(user!=null)
                return CreatedAtAction(nameof(Get), new { id = user.userId }, user);
                 else
@@ -63,7 +69,7 @@ namespace firstWebApiHw.Controllers
         {
             try
             {
-                string user = userService.getUserById(id);
+                string user = _userService.getUserById(id);
                 return user;
 
             }
@@ -78,12 +84,12 @@ namespace firstWebApiHw.Controllers
         public ActionResult<int> Put(int id, [FromBody] User userToUpdate)
         {
             try { 
-            var result = userService.checkPassword(userToUpdate.Password);
+            var result = _userService.checkPassword(userToUpdate.Password);
              if (result < 2)
                     return BadRequest(result);
             else { 
                     
-            userService.update(id,userToUpdate);
+            _userService.update(id,userToUpdate);
                 return Ok(result);
             }}
             catch (Exception ex)
@@ -105,7 +111,7 @@ namespace firstWebApiHw.Controllers
         public ActionResult<int> Post([FromBody] string password)
         {
             try { 
-            var result = userService.checkPassword(password);
+            var result = _userService.checkPassword(password);
             if (result < 2)
                 return BadRequest(result);
             else
