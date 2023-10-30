@@ -43,7 +43,7 @@ const login = async () => {
         const UserName=document.getElementById("userName1").value
         const Password= document.getElementById("password1").value
         const res = await fetch(`api/Users?UserName=${UserName}&Password=${Password}`)
-        if (!res.ok)
+        if (res.status=='204')
             window.alert("userName or password are not valid")
         else { 
             const user=await res.json()

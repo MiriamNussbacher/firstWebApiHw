@@ -23,15 +23,15 @@ namespace firstWebApiHw.Controllers
 
         // GET: api/<user>
         [HttpGet]
-        public ActionResult<User> Get([FromQuery] string UserName, [FromQuery] string Password)
+        public async Task<ActionResult<User>> Get([FromQuery] string UserName, [FromQuery] string Password)
         {
             try
             {
-                User user = _userService.getUserByUserNameAndPassword(UserName, Password);
+                User user = await _userService.getUserByUserNameAndPassword(UserName, Password);
                 if(user!=null)
                     return Ok(user);
                 else
-                    return BadRequest();
+                    return NoContent();
 
             }
             catch (Exception ex)
@@ -65,11 +65,11 @@ namespace firstWebApiHw.Controllers
         }
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<string> Get(int id)
         {
             try
             {
-                string user = _userService.getUserById(id);
+                string user = await _userService.getUserById(id);
                 return user;
 
             }
