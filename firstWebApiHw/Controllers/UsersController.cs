@@ -28,15 +28,11 @@ namespace firstWebApiHw.Controllers
             try
             {
                 User user = await _userService.getUserByUserNameAndPassword(UserName, Password);
-                if(user!=null)
-                    return Ok(user);
-                else
-                    return NoContent();
-
+                return user != null ? Ok(user) : Unauthorized();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                throw new Exception(ex.Message);
             }
             
         }
@@ -44,20 +40,18 @@ namespace firstWebApiHw.Controllers
 
         // POST api/<user>
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User user)
+        public async Task<ActionResult<User>> Post([FromBody] User user)
         {
             try { 
-            User newUser = _userService.createNewUser(user);
-                if(user!=null)
-               return CreatedAtAction(nameof(Get), new { id = user.userId }, user);
-                else
-                    return BadRequest();
+            User newUser = await _userService.createNewUser(user);
+                return user != null ? CreatedAtAction(nameof(Get), new { id = user.UserId }, user) : BadRequest();
+                
 
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                throw new Exception(ex.Message);
             }
 
 
@@ -65,12 +59,14 @@ namespace firstWebApiHw.Controllers
         }
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<string> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
         {
             try
             {
-                string user = await _userService.getUserById(id);
-                return user;
+                
+                User user = await _userService.getUserById(id);
+                return user != null ? Ok(user) : BadRequest("User didn't found");
+
 
             }
             catch (Exception ex)
@@ -81,30 +77,21 @@ namespace firstWebApiHw.Controllers
 
         // PUT api/<user>/5
         [HttpPut("{id}")]
-        public ActionResult<int> Put(int id, [FromBody] User userToUpdate)
+        public async Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
         {
-            try { 
-            var result = _userService.checkPassword(userToUpdate.Password);
-             if (result < 2)
-                    return BadRequest(result);
-            else { 
-                    
-            _userService.update(id,userToUpdate);
-                return Ok(result);
-            }}
+            try {
+                User updatedUser = await _userService.update(id,userToUpdate);
+                return updatedUser != null ? Ok(updatedUser) : BadRequest();
+            }
             catch (Exception ex)
             {
+                throw new Exception(ex.Message);
 
-                return BadRequest(ex.Message);
             }
 
         }
 
-        // DELETE api/<user>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
 
         [Route("password")]
         [HttpPost]
@@ -112,10 +99,8 @@ namespace firstWebApiHw.Controllers
         {
             try { 
             var result = _userService.checkPassword(password);
-            if (result < 2)
-                return BadRequest(result);
-            else
-                return Ok(result);}
+            return result < 2?BadRequest( "Password is too weak") :Ok(result);
+              }
             catch (Exception ex)
             {
 

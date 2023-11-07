@@ -6,14 +6,15 @@
    
     <title></title>
 </head>
-<body>
+<body onload="welcome()">
     <div id="root"></div>
     <script src="Login.js"></script>
-    <a class="link" onclick="change()">עדכון הפרטים האישיים שלך</a>
+    <a class="link" onclick="showRegistrationForm()">עדכון הפרטים האישיים שלך</a>
     <script>sessionStorage</script>
     <div style="visibility:hidden" id="register">
         <p>שם משתמש</p><input class="inputs" id="userNameToUpdate" /><br />
-        <p>סיסמא</p><input class="inputs" id="passwordToUpdate" /><br />
+        <p>סיסמא</p><input class="inputs" onblur="strengthPassword()" id="password" /><br />
+        <progress id="progress" value="0" max="4"></progress>
         <p>שם פרטי</p><input class="inputs" id="firstNameToUpdate" /><br />
         <p>שם משפחה</p><input class="inputs" id="lastNameToUpdate" /><br /><br />
         <button class="btn" onclick="update()">עדכן</button>

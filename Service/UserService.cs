@@ -14,24 +14,28 @@ namespace Service
             _userRepository = userRepository;
         }
 
-        public User createNewUser(User user)
+        public async Task<User> createNewUser(User user)
         {
-            User newUser = _userRepository.createNewUser(user);
+            if (checkPassword(user.Password) < 2)
+                return null;
+            User newUser = await _userRepository.createNewUser(user);
             if (newUser != null) return newUser;
-            else return null;
+            return null;
         }
         public async Task<User> getUserByUserNameAndPassword(string UserName, string Password)
         {
-
+            
             User newUser = await _userRepository.getUserByUserNameAndPassword(UserName, Password);
             if (newUser != null) return newUser;
-            else return null;
+            return null;
         }
 
-        public async Task update(int id, User userToUpdate)
+        public async Task<User> update(int id, User userToUpdate)
         {
-
-            await _userRepository.update(id, userToUpdate);
+            if (checkPassword(userToUpdate.Password) < 2)
+                return null;
+            await  _userRepository.update(id, userToUpdate);
+            return userToUpdate;
         }
 
 
@@ -41,7 +45,7 @@ namespace Service
             return result.Score;
         }
 
-        public async Task<string> getUserById(int id)
+        public async Task<User> getUserById(int id)
         {
             return await _userRepository.getUserById(id);
         }
