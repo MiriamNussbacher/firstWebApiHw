@@ -18,8 +18,8 @@ namespace Services
         }
         public async Task<Order> createNewOrder(Order order)
         {
-            Order newUser = await _orderRepository.createNewOrder(order);
-            return newUser != null ? newUser : null;
+            Order newOrder = await _orderRepository.createNewOrder(order);
+            return newOrder != null ? newOrder : null;
 
 
 

@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System;
 using Microsoft.EntityFrameworkCore;
+using Repositories;
 
 namespace Repository
 {
@@ -33,6 +34,7 @@ namespace Repository
 
         public async Task<User> update(int id, User userToUpdate)
         {
+            userToUpdate.UserId = id;
             _superMarketContext.Users.Update(userToUpdate); ;
             await _superMarketContext.SaveChangesAsync();
             return userToUpdate;

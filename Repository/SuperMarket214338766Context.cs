@@ -62,7 +62,7 @@ public partial class SuperMarket214338766Context : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ORDERS__USER_ID__2B3F6F97");
+                .HasConstraintName("FK_ORDERS_USERS");
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
@@ -79,12 +79,12 @@ public partial class SuperMarket214338766Context : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ORDER_ITE__ORDER__300424B4");
+                .HasConstraintName("FK_ORDER_ITEM_ORDERS");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderItems)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ORDER_ITE__PRODU__2F10007B");
+                .HasConstraintName("FK_ORDER_ITEM_PRODUCTS");
         });
 
         modelBuilder.Entity<Product>(entity =>

@@ -16,21 +16,6 @@ namespace webApiShopSite.Controllers
         {
             _orderService = orderService;
         }
-
-        // GET: api/<Orderscs>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<Orderscs>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<Orderscs>
         [HttpPost]
         public async Task<ActionResult<Order>> Post([FromBody] Order order)
@@ -38,7 +23,7 @@ namespace webApiShopSite.Controllers
             try
             {
                 Order newOrder = await _orderService.createNewOrder(order);
-                return newOrder != null ? CreatedAtAction(nameof(Get), new { id = newOrder.UserId }, newOrder) : BadRequest();
+                return newOrder != null ? CreatedAtAction(nameof(Get), new { id = newOrder.UserId }, newOrder) :NoContent();
 
 
             }
@@ -49,16 +34,14 @@ namespace webApiShopSite.Controllers
             }
         }
 
-        // PUT api/<Orderscs>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+
+        // GET api/<Orderscs>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
+            return "value";
         }
 
-        // DELETE api/<Orderscs>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
+
 }
