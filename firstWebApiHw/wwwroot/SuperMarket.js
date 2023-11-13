@@ -50,7 +50,7 @@ const filterProducts = async () => {
     let maxPrice = document.getElementById("maxPrice").value;
     let desc = document.getElementById("nameSearch").value;
     const products = await getAllProducts(desc, minPrice, maxPrice, checkedCategories);
-    document.getElementById("PoductList").removeAllChild();
+    document.getElementById("PoductList").replaceChildren([]);
     for (var i = 0; i < products.length; i++) {
         let tmp = document.getElementById("temp-card");
         let clone = tmp.content.cloneNode(true);
