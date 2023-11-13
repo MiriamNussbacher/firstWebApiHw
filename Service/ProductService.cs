@@ -17,9 +17,9 @@ namespace Services
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<Product>> getAllProducts()
+        public async Task<List<Product>> getAllProducts(string? desc, int? minPrice, int? maxPrice, int?[] categoryIds)
         {
-            IEnumerable<Product> products = await _productRepository.getAllProducts();
+            List<Product> products = await _productRepository.getAllProducts( desc,  minPrice,maxPrice,categoryIds);
             return products != null ? products:null  ;
 
 

@@ -19,9 +19,9 @@ namespace webApiShopSite.Controllers
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> Get()
+        public async Task<ActionResult<List<Product>>> Get(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIds)
         {
-            IEnumerable<Product> products = await _productService.getAllProducts();
+            List<Product> products = await _productService.getAllProducts(desc,  minPrice,maxPrice,  categoryIds);
             return products != null ? Ok(products) : BadRequest();
         }
 

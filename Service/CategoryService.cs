@@ -21,7 +21,7 @@ using System.Threading.Tasks;
         public async Task<IEnumerable<Category>> Get()
         {
             IEnumerable<Category> categories = await _categoryRepository.getAllProducts();
-            return categories != null ? null : categories;
+            return categories != null ? categories : null;
             
 
         }
