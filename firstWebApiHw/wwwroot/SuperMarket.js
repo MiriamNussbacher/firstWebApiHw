@@ -46,11 +46,11 @@ const filterProducts = async () => {
     for (let i = 0; i < allCategoriesOptions.length; i++) {
         if (allCategoriesOptions[i].checked) checkedCategories.push(allCategoriesOptions[i].id)
     }
-    let minPrice = document.getElementById("minPrice").innerText;
-    let maxPrice = document.getElementById("maxPrice").innerText;
-    let desc = document.getElementById("nameSearch").innerText;
+    let minPrice = document.getElementById("minPrice").value;
+    let maxPrice = document.getElementById("maxPrice").value;
+    let desc = document.getElementById("nameSearch").value;
     const products = await getAllProducts(desc, minPrice, maxPrice, checkedCategories);
-    document.getElementById("PoductList").children = [];
+    document.getElementById("PoductList").removeAllChild();
     for (var i = 0; i < products.length; i++) {
         let tmp = document.getElementById("temp-card");
         let clone = tmp.content.cloneNode(true);
