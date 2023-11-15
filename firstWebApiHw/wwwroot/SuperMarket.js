@@ -27,6 +27,16 @@ const getAllCategories = async () => {
         console.log(e)
     }
 }
+const addToCart =(product) => {
+    document.getElementById("ItemsCountText").innerText++;
+    if (sessionStorage.length == 0) sessionStorage.setItem("cart", "[]");
+    let cart = JSON.parse(sessionStorage.getItem("cart"));
+    MYcart = [...cart, product]
+    let myCart = JSON.stringify(MYcart);
+    sessionStorage.cart = myCart;
+
+    
+}
 
 const showProducts=async()=>{
     const products = await getAllProducts();
@@ -36,6 +46,8 @@ const showProducts=async()=>{
         clone.querySelector("img").src = "./images/" + products[i].productImage;
         clone.querySelector("h1").innerText = products[i].productName;
         clone.querySelector(".description").innerText = products[i].productDescription
+        let btn = clone.querySelector("button");
+        btn.addEventListener("click", () => addToCart(event.target.value));
         clone.querySelector(".price").innerText = products[i].productPrice+"¤";
         document.getElementById("PoductList").appendChild(clone);
     }
