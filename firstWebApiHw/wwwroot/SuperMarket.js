@@ -40,17 +40,18 @@ const addToCart =(product) => {
 
 const showProducts=async()=>{
     const products = await getAllProducts();
-    for (var i = 0; i < products.length;i++) {
+    for (let i = 0; i < products.length;i++) {
         let tmp = document.getElementById("temp-card");
         let clone = tmp.content.cloneNode(true);
         clone.querySelector("img").src = "./images/" + products[i].productImage;
         clone.querySelector("h1").innerText = products[i].productName;
         clone.querySelector(".description").innerText = products[i].productDescription
         let btn = clone.querySelector("button");
-        btn.addEventListener("click", () => addToCart(event.target.value));
+        btn.addEventListener('click', () => { addToCart(products[i]) });
         clone.querySelector(".price").innerText = products[i].productPrice+"¤";
         document.getElementById("PoductList").appendChild(clone);
     }
+    document.getElementById("counter").innerText = products.length;
 }
 const filterProducts = async () => {
     let checkedCategories = [];
@@ -72,6 +73,7 @@ const filterProducts = async () => {
         clone.querySelector(".price").innerText = products[i].productPrice + "¤";
         document.getElementById("PoductList").appendChild(clone);
     }
+    document.getElementById("counter").innerText = products.length;
 }
 
 const showCategories = async () => {
