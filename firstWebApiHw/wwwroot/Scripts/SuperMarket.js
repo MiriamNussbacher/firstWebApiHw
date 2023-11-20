@@ -34,11 +34,10 @@ const addToCart =(product) => {
     MYcart = [...cart, product]
     let myCart = JSON.stringify(MYcart);
     sessionStorage.cart = myCart;
-
-    
 }
 
-const showProducts=async()=>{
+const showProducts = async () => {
+    
     const products = await getAllProducts();
     for (let i = 0; i < products.length;i++) {
         let tmp = document.getElementById("temp-card");
@@ -52,6 +51,7 @@ const showProducts=async()=>{
         document.getElementById("PoductList").appendChild(clone);
     }
     document.getElementById("counter").innerText = products.length;
+    document.getElementById("ItemsCountText").innerText = (JSON.parse(sessionStorage.getItem("cart"))).length;
 }
 const filterProducts = async () => {
     let checkedCategories = [];
