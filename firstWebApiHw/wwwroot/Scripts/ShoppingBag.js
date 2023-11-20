@@ -18,10 +18,7 @@ let cartString=sessionStorage.getItem("cart")
         myCart = myCart.filter(p => p.productId != myCart[i].productId)
     }
     document.querySelector("#totalAmount").innerHTML=totalSum+"$"
-
-
 }
-
 deleteProduct=(product)=>{
     let cartString = sessionStorage.getItem("cart")
     let myCart = JSON.parse(cartString);
