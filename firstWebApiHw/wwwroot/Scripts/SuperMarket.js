@@ -37,6 +37,7 @@ const addToCart =(product) => {
 }
 
 const showProducts = async () => {
+  
     
     const products = await getAllProducts();
     for (let i = 0; i < products.length;i++) {
@@ -52,6 +53,7 @@ const showProducts = async () => {
     }
     document.getElementById("counter").innerText = products.length;
     document.getElementById("ItemsCountText").innerText = (JSON.parse(sessionStorage.getItem("cart"))).length;
+    
 }
 const filterProducts = async () => {
     let checkedCategories = [];
@@ -88,4 +90,13 @@ const showCategories = async () => {
         document.getElementById("categoryList").appendChild(clone);
 
     }
+}
+const TrackLinkID = () => {
+    
+    sessionStorage.getItem("user")?document.querySelector(".myAccount").href = "/Update.html":document.querySelector(".myAccount").href="/Login.html"
+        
+
+
+
+
 }

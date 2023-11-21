@@ -37,11 +37,66 @@ addProduct = (product) => {
     showBag();
 }
 
-closeOrder = () => {
-    let arr = ["a", "b", "c"];
+closeOrder = async() => {
+    if (!sessionStorage.getItem("user")) {
+        document.querySelector(".setUser").href = "/Login.html"
+    }
+    else {
+
+        const order = {
+            
+            OrderDate: new Date(),
+            OrderSum: 0,
+            UserId: (JSON.parse(sessionStorage.getItem("user"))).userId,
+            OrderItems: []
+        }
+        
+        let cartString = sessionStorage.getItem("cart")
+        let myCart = JSON.parse(cartString);
+        let totalSum=0;
+        while (myCart.length != 0) {
+            let item = myCart[0];
+            let count = myCart.filter(p => p.productId == item.productId).length
+            let orderItem = {
+                ProductId: item.productId,
+                Quantity: count,
+            }
+            order.OrderItems = [...order.OrderItems, orderItem]
+            totalSum += count * item.productPrice;
+            myCart = myCart.filter(p => p.productId != item.productId)
+        }
+        order.OrderSum = totalSum;
+        console.log(order)
+        try {
+            const res = await fetch(`https://localhost:44354/api/Orders`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': `application/json` },
+                        body: JSON.stringify(order)
+                    })
+            if (res.status != '201')
+                    alert("error create this order,plase try again!")
+                else {
+                    const data = await res.json();
+                    alert(`order ${data.OrderId} created succfully`)
+                }
+            
+
+        } catch (e) {
+            alert(e)
+        }
+    }
+
+
+}
+    
+
+
+
+
+    
    
 
 
 
 
-}

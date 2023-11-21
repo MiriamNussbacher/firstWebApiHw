@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="Styles/login.css" />
-   
+    <script src="Scripts/Login.js"></script>
     <title></title>
 </head>
 <body onload="welcome()">
@@ -11,6 +11,7 @@
     <script src="Login.js"></script>
     <a class="link" onclick="showRegistrationForm()">עדכון הפרטים האישיים שלך</a>
     <script>sessionStorage</script>
+
     <div style="visibility:hidden" id="register">
         <p>שם משתמש</p><input class="inputs" id="userNameToUpdate" /><br />
         <p>סיסמא</p><input class="inputs" onblur="strengthPassword()" id="password" /><br />
@@ -19,6 +20,7 @@
         <p>שם משפחה</p><input class="inputs" id="lastNameToUpdate" /><br /><br />
         <button class="btn" onclick="update()">עדכן</button>
     </div>
+    <a href="SuperMarket.html">המשך בקניה</a>
 
 </body>
 </html>
