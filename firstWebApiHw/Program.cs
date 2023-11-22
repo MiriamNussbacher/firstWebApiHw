@@ -20,8 +20,7 @@ builder.Services.AddControllers();
  builder.Services.AddDbContext<SuperMarket214338766Context>(option => option.UseSqlServer("Data Source=SRV2\\PUPILS;Initial Catalog=SuperMarket214338766;Integrated Security=True"));
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
-
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

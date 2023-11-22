@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using AutoMapper;
+using DTO;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 
@@ -11,18 +13,20 @@ namespace webApiShopSite.Controllers
     public class ProductsController : ControllerBase
     {
         IProductService _productService;
-
-        public ProductsController(IProductService productService)
+        IMapper _mapper;
+        public ProductsController(IProductService productService,IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> Get(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIds)
+        public async Task<ActionResult<List<ProductDto>>> Get(string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIds)
         {
             List<Product> products = await _productService.getAllProducts(desc,  minPrice,maxPrice,  categoryIds);
-            return products != null ? Ok(products) : BadRequest();
+            List<ProductDto> productsDtos = _mapper.Map<List<Product>, List<ProductDto>>(products);
+            return products != null ? Ok(productsDtos) : BadRequest();
         }
 
     }

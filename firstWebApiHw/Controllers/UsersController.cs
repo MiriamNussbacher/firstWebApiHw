@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Reflection.Metadata;
 using System.Text.Json;
+using DTO;
+using AutoMapper;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace firstWebApiHw.Controllers
 {
     [Route("api/[controller]")]
@@ -15,38 +16,39 @@ namespace firstWebApiHw.Controllers
     public class UsersController : ControllerBase
     {
         IUserService _userService;
-
-        public UsersController(IUserService userService)
+        IMapper _mapper;
+        public UsersController(IUserService userService,IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
-        // GET: api/<user>
-        [HttpGet]
-        public async Task<ActionResult<User>> Get([FromQuery] string UserName, [FromQuery] string Password)
+        // POST: api/<user>
+        [Route("login")]
+        [HttpPost]
+        public async Task<ActionResult<UserIdNameDto>> Post([FromBody] UserNameAndPassword User)
         {
             try
             {
-                User user = await _userService.getUserByUserNameAndPassword(UserName, Password);
-                return user != null ? Ok(user) : Unauthorized();
+                User user = await _userService.getUserByUserNameAndPassword(User.UserName, User.Password);
+                UserIdNameDto UserIdDto = _mapper.Map<User, UserIdNameDto>(user);
+                return user != null ? Ok(UserIdDto) : Unauthorized();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-            
+            }  
         }
 
 
         // POST api/<user>
         [HttpPost]
-        public async Task<ActionResult<User>> Post([FromBody] User user)
+        public async Task<ActionResult<UserDto>> Post([FromBody] UserDto UserDto)
         {
-            try { 
+            try {
+            User user = _mapper.Map<UserDto,User>(UserDto);
             User newUser = await _userService.createNewUser(user);
-                return user != null ? CreatedAtAction(nameof(Get), new { id = user.UserId }, user) : BadRequest();
-                
-
+                return newUser != null ? CreatedAtAction(nameof(Get), new { id = UserDto.UserId }, UserDto) : BadRequest();
             }
             catch (Exception ex)
             {
@@ -59,13 +61,14 @@ namespace firstWebApiHw.Controllers
         }
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id)
+        public async Task<ActionResult<UserDto>> Get(int id)
         {
             try
             {
                 
                 User user = await _userService.getUserById(id);
-                return user != null ? Ok(user) : BadRequest("User didn't found");
+                UserDto UserDto = _mapper.Map<User, UserDto>(user);
+                return user != null ? Ok(UserDto) : BadRequest("User didn't found");
 
 
             }
@@ -77,16 +80,17 @@ namespace firstWebApiHw.Controllers
 
         // PUT api/<user>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
+        public async Task<ActionResult<UserIdNameDto>> Put(int id, [FromBody] UserDto userDto)
         {
             try {
-                User updatedUser = await _userService.update(id,userToUpdate);
-                return updatedUser != null ? Ok(updatedUser) : BadRequest();
+                User userToUpdate = _mapper.Map<UserDto, User>(userDto);
+                User updatedUser = await _userService.update(id, userToUpdate);
+                UserIdNameDto userIdNameDto = _mapper.Map<User, UserIdNameDto>(updatedUser);
+                return updatedUser != null ? Ok(userIdNameDto) : BadRequest();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-
             }
 
         }

@@ -42,9 +42,16 @@ const register = async() =>{
 const login = async () => {
 
     try {
-        const UserName=document.getElementById("userName1").value
-        const Password= document.getElementById("password1").value
-        const res = await fetch(`api/Users?UserName=${UserName}&Password=${Password}`)
+        const UserNameAndPassword = {
+            UserName:document.getElementById("userName1").value,
+            Password: document.getElementById("password1").value
+        }
+        const res = await fetch('api/Users/login',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(UserNameAndPassword)
+            })
         if (res.status=='401')
             window.alert("userName or password are not valid")
         else { 
@@ -84,7 +91,10 @@ const update = async () => {
         if (!res.ok)
             alert("error updated to the server,your password is too easy,change your password!")
         else {
-           
+            sessionStorage.user = JSON.stringify(await res.json())
+            const userJson = sessionStorage.getItem("user")
+            const firstName = JSON.parse(userJson).firstName 
+            document.getElementById("hello").innerText = `welcome to ${firstName}`
             alert(`user ${id} updated succfully`)
         }
         }
@@ -125,7 +135,8 @@ async function strengthPassword() {
 
 } 
 const welcome = () => { 
-const hello = document.createElement('p')
+    const hello = document.createElement('p')
+hello.id="hello"
 document.body.appendChild(hello)
 const userJson = sessionStorage.getItem("user")
 const firstName=JSON.parse(userJson).firstName

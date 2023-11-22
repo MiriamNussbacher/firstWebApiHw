@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using AutoMapper;
+using DTO;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Services;
@@ -13,21 +15,21 @@ namespace webApiShopSite.Controllers
     public class CategoriesController : ControllerBase
     {
         ICategoryService _categoryService;
-
-        public CategoriesController(ICategoryService categoryService)
+        IMapper _mapper;
+        public CategoriesController(ICategoryService categoryService,IMapper mapper)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
 
 
         // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> Get()
         {
-             IEnumerable<Category>categories=await _categoryService.Get();
-            return categories != null ? Ok(categories) : BadRequest();
+            IEnumerable<Category>categories=await _categoryService.Get();
+            IEnumerable<CategoryDto> categoriesDtos = _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDto>>(categories);
+            return categories != null ? Ok(categoriesDtos) : BadRequest();
         }
-
-      
     }
 }
